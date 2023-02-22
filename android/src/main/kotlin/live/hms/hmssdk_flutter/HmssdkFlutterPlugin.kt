@@ -65,34 +65,30 @@ class HmssdkFlutterPlugin :
     }
 
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
-        if (hmssdkFlutterPlugin == null) {
-            this.channel = MethodChannel(flutterPluginBinding.binaryMessenger, "hmssdk_flutter")
-            this.meetingEventChannel =
+        this.channel = MethodChannel(flutterPluginBinding.binaryMessenger, "hmssdk_flutter")
+        this.meetingEventChannel =
                 EventChannel(flutterPluginBinding.binaryMessenger, "meeting_event_channel")
-            this.previewChannel =
+        this.previewChannel =
                 EventChannel(flutterPluginBinding.binaryMessenger, "preview_event_channel")
 
-            this.logsEventChannel =
+        this.logsEventChannel =
                 EventChannel(flutterPluginBinding.binaryMessenger, "logs_event_channel")
 
-            this.rtcStatsChannel =
+        this.rtcStatsChannel =
                 EventChannel(flutterPluginBinding.binaryMessenger, "rtc_event_channel")
 
-            this.meetingEventChannel?.setStreamHandler(this) ?: Log.e("Channel Error", "Meeting event channel not found")
-            this.channel?.setMethodCallHandler(this) ?: Log.e("Channel Error", "Event channel not found")
-            this.previewChannel?.setStreamHandler(this) ?: Log.e("Channel Error", "Preview channel not found")
-            this.logsEventChannel?.setStreamHandler(this) ?: Log.e("Channel Error", "Logs event channel not found")
-            this.rtcStatsChannel?.setStreamHandler(this) ?: Log.e("Channel Error", "RTC Stats channel not found")
-            this.hmsVideoFactory = HMSVideoViewFactory(this)
+        this.meetingEventChannel?.setStreamHandler(this) ?: Log.e("Channel Error", "Meeting event channel not found")
+        this.channel?.setMethodCallHandler(this) ?: Log.e("Channel Error", "Event channel not found")
+        this.previewChannel?.setStreamHandler(this) ?: Log.e("Channel Error", "Preview channel not found")
+        this.logsEventChannel?.setStreamHandler(this) ?: Log.e("Channel Error", "Logs event channel not found")
+        this.rtcStatsChannel?.setStreamHandler(this) ?: Log.e("Channel Error", "RTC Stats channel not found")
+        this.hmsVideoFactory = HMSVideoViewFactory(this)
 
-            flutterPluginBinding.platformViewRegistry.registerViewFactory(
+        flutterPluginBinding.platformViewRegistry.registerViewFactory(
                 "HMSVideoView",
                 hmsVideoFactory
-            )
-            hmssdkFlutterPlugin = this
-        } else {
-            Log.e("Plugin Warning", "hmssdkFlutterPlugin already exists in onAttachedToEngine")
-        }
+        )
+        hmssdkFlutterPlugin = this
     }
 
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
